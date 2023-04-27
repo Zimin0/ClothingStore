@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <body> 
+        {% if user.is_authenticated %}
+            <h1> Личный кабинет: {{ user }}  </h1>
+            <h1> Ваш промокод: {{ promocode.str_v2 }} </h1>
+        {% else %}
+            <h1> <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'signup' %}">зарегестрируйтесь</a>,  чтобы пользоваться личным кабинетом.</h1>
+        {% endif %}
+        <hr>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}"><li>Выйти</li></a>
+        {% else %}
+            <a href="{% url 'login' %}"><li>Войти</li></a>
+            <a href="{% url 'signup' %}"><li>Регистрация</li></a>
+        {% endif %}
+        <a href="{% url 'promocode' %}"><li>Оформление промокода</li></a>
+    </body>
+</html>
