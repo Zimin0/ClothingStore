@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
     <body> 
-        <h1> {{ product.name }}  </h1>
+        <h1>{{ product.name }}  </h1>
 
-        <h3>{{ product.short_description }} </h3> 
-        <h3>{{ product.price }} рублей </h3> 
+        <h3>Описание: {{ product.short_description }} </h3> 
+        <h3>Цена: {{ product.price }} рублей </h3> 
 
+        <!-- Форма добавления товара в корзину -->
+        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+            {{ cart_product_form }}
+            {% csrf_token %}
+            <input type="submit" value="Add to cart">
+        </form>
+        <!--------------------------------------->
         <hr>
         <p1>Здравствуйте, </p1>
         <a href="{% url 'profile' %}"><b>{{ user.username|default:'Guest' }}</b></a>
@@ -19,14 +26,7 @@
         <a href="{% url 'profile' %}"><li>Личный кабинет</li></a>
         <a href="{% url 'promocode' %}"><li>Оформление промокода</li></a>
         <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a>
-        <p class="price">${{ product.price }}</p>
 
-        <!-- Форма добавления товара в корзину -->
-        <form action="{% url 'cart:cart_add' product.id %}" method="post">
-            {{ cart_product_form }}
-            {% csrf_token %}
-            <input type="submit" value="Add to cart">
-        </form>
-        <!--------------------------------------->
+
     </body>
 </html>
