@@ -34,6 +34,7 @@ MEDIA_URL = '/media/'
 # Application definition
 
 CART_SESSION_ID = 'cart'
+SESSION_COOKIE_AGE = 600 #10 minutes.
 
 INSTALLED_APPS = [
     'django.contrib.admin',
