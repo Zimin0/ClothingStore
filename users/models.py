@@ -6,6 +6,7 @@ from pages.models import Promocode
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=12, verbose_name='Номер телефона', null=True, unique=True)
     
 
 @receiver(post_save, sender=User)

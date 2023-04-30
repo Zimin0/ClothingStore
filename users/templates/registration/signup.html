@@ -4,12 +4,8 @@
     <h1> Регистрация </h1>
 </html>
 
-
-
-{% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Регистрация">
-    </form>
-{% endblock %}
+<form action="." method="post">
+    {{ user_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Create my account"></p>
+</form>

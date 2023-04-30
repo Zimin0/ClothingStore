@@ -16,4 +16,13 @@
         {% endif %}
         <a href="{% url 'promocode' %}"><li>Оформление промокода</li></a>
     </body>
+
+    <!-- profile.html -->
+<h1>Можно внести изменения</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit">Сохранить изменения</button>
+  </form>
 </html>
