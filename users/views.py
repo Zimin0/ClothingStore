@@ -23,7 +23,7 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, 'registration/registration.html', {'user_form': user_form})
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
