@@ -78,8 +78,3 @@ def edit(request):
                       'registration/edit.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})
-
-@login_required   
-def profile(request):
-    context = {}
-    return render(request, 'registration/profile', context)

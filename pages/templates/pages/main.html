@@ -10,7 +10,7 @@
 
         <hr>
         <p1>Здравствуйте, </p1>
-        <a href="{% url 'users:profile' %}"><b>{{ user.username|default:'Гость' }}</b></a>
+        <a href="{% url 'pages:profile' %}"><b>{{ user.username|default:'Гость' }}</b></a>
         <hr>
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}"><li>Выйти</li></a>
@@ -18,7 +18,7 @@
             <a href="{% url 'login' %}"><li>Войти</li></a>
             <a href="{% url 'users:register' %}"><li>Регистрация</li></a>
         {% endif %}
-        <a href="{% url 'users:profile' %}"><li>Личный кабинет</li></a>
+        <a href="{% url 'pages:profile' %}"><li>Личный кабинет</li></a>
         <a href="{% url 'pages:promocode' %}"><li>Оформление промокода</li></a>
         <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a>
     </body>

@@ -24,7 +24,7 @@
             <a href="{% url 'login' %}"><li>Войти</li></a>
             <a href="{% url 'users:register' %}"><li>Регистрация</li></a>
         {% endif %}
-        <a href="{% url 'users:profile' %}"><li>Личный кабинет</li></a>
+        <a href="{% url 'pages:profile' %}"><li>Личный кабинет</li></a>
         <a href="{% url 'pages:promocode' %}"><li>Оформление промокода</li></a>
         <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a>
 

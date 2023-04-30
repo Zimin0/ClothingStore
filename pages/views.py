@@ -38,7 +38,7 @@ def profile(request):
     context = {}
     try:
         context['promocode'] = request.user.promocode
-    except:
+    except: 
         context['promocode'] = "У вас пока его нет!"
     return render(request, "pages/profile.html", context)
 
