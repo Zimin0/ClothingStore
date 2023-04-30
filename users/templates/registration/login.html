@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-
 <html>
-    <h1> login </h1>
+    <h1> Войти </h1>
+    <form action="." method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Войти"></p>
+  </form>
 </html>
 
 
 
-<form action="." method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Log-in"></p>
-</form>
+

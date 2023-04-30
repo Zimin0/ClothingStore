@@ -1,5 +1,2 @@
-
-
-
-<h1>Welcome {{ new_user.first_name }}!</h1>
-<p>Your account has been successfully created. Now you can <a href="{% url "login" %}">log in</a>.</p>
+<h1>Приятно Вас тут видеть, {{ new_user.first_name }}!</h1>
+<p>Аккаунт был создан! Теперь вы можете <a href="{% url 'users:login' %}">Войти</a>.</p>
