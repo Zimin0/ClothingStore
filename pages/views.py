@@ -36,13 +36,10 @@ def promocode(request):
 def profile(request):
     """Личный кабинет """
     context = {}
-    
     try:
         context['promocode'] = request.user.promocode
     except:
         context['promocode'] = "У вас пока его нет!"
-
-
     return render(request, "pages/profile.html", context)
 
 def ex_product(request, prod_id):

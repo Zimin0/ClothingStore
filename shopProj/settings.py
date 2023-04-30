@@ -27,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'main'
-LOGOUT_REDIRECT_URL = 'main'
+LOGIN_REDIRECT_URL = 'pages:main'
+LOGOUT_REDIRECT_URL = 'pages:main'
 MEDIA_ROOT = f'{BASE_DIR}/media'
 MEDIA_URL = '/media/'
 # Application definition

@@ -5,7 +5,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('register/', register, name='register'),
-    path('login/', user_login, name='login'),
+    #path('login/', user_login, name='login'),
     path('edit/', edit, name='edit'),
     path('profile/', profile, name='profile'),
 ]

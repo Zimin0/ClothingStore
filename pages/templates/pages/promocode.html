@@ -4,7 +4,7 @@
         {% if user.is_authenticated %}
 
         {% else %}
-            <h1> <a href="{% url 'users:login' %}">Войдите</a> или <a href="{% url 'users:register' %}">зарегестрируйтесь</a>, чтобы оформить промокод.</h1>
+            <h1> <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'users:register' %}">зарегестрируйтесь</a>, чтобы оформить промокод.</h1>
         {% endif %}
 
         {% if promo_already_exists %}
@@ -22,9 +22,9 @@
         
         <hr>
         {% if user.is_authenticated %}
-            <a href="{% url 'users:logout' %}"><li>Выйти</li></a>
+            <a href="{% url 'logout' %}"><li>Выйти</li></a>
         {% else %}
-            <a href="{% url 'users:login' %}"><li>Войти</li></a>
+            <a href="{% url 'login' %}"><li>Войти</li></a>
             <a href="{% url 'users:register' %}"><li>Регистрация</li></a>
         {% endif %}
         <a href="{% url 'users:profile' %}"><li>Личный кабинет</li></a>
