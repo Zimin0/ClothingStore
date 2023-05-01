@@ -4,16 +4,18 @@
         {% if user.is_authenticated %}
             <h1> Личный кабинет: {{ user }}  </h1>
             <h1> Ваш промокод: {{ promocode.str_v2 }} </h1>
-        {% else %}
-            <h1> <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'users:register' %}">зарегестрируйтесь</a>,  чтобы пользоваться личным кабинетом.</h1>
-        {% endif %}
-        <hr>
-        {% if user.is_authenticated %}
+            <h1> Телефон: {{ user.profile.phone|default:"Заполните поле телефона!" }} </h1>
+            <h1> Адрес: {{  user.profile.address|default:"Заполните поле адреса!" }} </h1>
+            <hr>
             <a href="{% url 'logout' %}"><li>Выйти</li></a>
         {% else %}
+            <hr>
+            <h1> <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'users:register' %}">зарегестрируйтесь</a>,  чтобы пользоваться личным кабинетом.</h1>
             <a href="{% url 'login' %}"><li>Войти</li></a>
             <a href="{% url 'users:register' %}"><li>Регистрация</li></a>
         {% endif %}
+        <hr>
+        <a href="{% url 'users:edit' %}"><li>Изменение личных данных</li></a>
         <a href="{% url 'pages:promocode' %}"><li>Оформление промокода</li></a>
     </body>
 </html>
