@@ -69,7 +69,7 @@ def edit(request):
         user_form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
         if phone_is_exists(request):
-            profile_form.add_error(None, 'Пользователь с таким телефоном уже существует!')
+            profile_form.add_error('phone', 'Пользователь с таким телефоном уже существует!')
             return render(request, 'registration/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})

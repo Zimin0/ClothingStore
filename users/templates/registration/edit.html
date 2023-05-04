@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+    <head>
+        <meta refresh="2; {% url 'pages:profile' %}">
+    </head>
     {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
@@ -29,7 +31,7 @@
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
         {% csrf_token %}
-        <p><input type="submit" value="Сохранить" onclick="return setTimeout()"></p>
+        <p><input type="submit" value="Сохранить" onclick=""></p>
     </form>
 </html>
 

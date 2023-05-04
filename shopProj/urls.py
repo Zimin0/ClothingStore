@@ -22,6 +22,7 @@ import debug_toolbar
 
 
 urlpatterns = [
+    path('orders/', include('orders.urls', namespace='orders')),
     path('cart/', include('cart.urls')),
     path('admin/', admin.site.urls),
     path('home/', include('users.urls'), name='home'),
