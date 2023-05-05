@@ -6,6 +6,7 @@
             <hr>
             <h2><a href="{% url 'pages:ex_product' prod.id %}">{{ prod.name }}</a></h2>
             <h3>{{ prod.price }}P</h3>
+            <p>{{ prod.short_description }}</p>
         {% endfor %}
 
         <hr>

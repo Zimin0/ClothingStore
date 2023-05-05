@@ -39,7 +39,7 @@ class Product(models.Model):
     short_description = models.CharField(max_length=300, verbose_name="Краткое описание", null=True, blank=False, help_text="Будет выводиться на главной странице. Максимум - 300 символов.")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="categ_products", verbose_name="Категория", help_text="Группа товара, по которой будет фильтроваться их список.")
     male_female = models.CharField(max_length=10, choices=SEX, default="U")
-    price = models.IntegerField(verbose_name="Цена", default=0, blank=False)
+    price = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="Цена", default=0.0, blank=False) 
     description = models.TextField(max_length=1000, verbose_name="Длинное описание товара. Будет выводиться на его личной странице.", null=True, blank=True)
     is_limited = models.BooleanField(verbose_name="Товар лимитированой серии?", default=False)
     archived = models.BooleanField(verbose_name="Архивирован ли товар?", default=False)
@@ -68,25 +68,6 @@ class Photo(models.Model):
     
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='photos', help_text="Нужно выбрать товар, которому соответствует данная картинка.")
     photo = models.ImageField(verbose_name="Изображение", upload_to=directory_path) # 
-
-class Purchase(models.Model):
-    """ Заказ/покупка """
-
-    class Meta:
-        verbose_name = "Запрос на покупку"
-        verbose_name_plural = "Запросы на покупки"
-    
-    STATUS = (
-        ('RE', 'Rejected'),
-        ('FI', 'Accepted')
-    )
-    user = ...
-    date = ...
-    summ = ...
-    products = ...
-    status = ...
-    used_promocode = ...
-    address = ...
 
 class Promocode(models.Model):
     """ Промокод на скидку """

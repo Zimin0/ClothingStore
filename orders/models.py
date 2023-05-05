@@ -35,3 +35,24 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+
+
+class Purchase(models.Model):
+    """ Заказ/покупка """
+
+    class Meta:
+        verbose_name = "Запрос на покупку"
+        verbose_name_plural = "Запросы на покупки"
+    
+    STATUS = (
+        ('RE', 'Rejected'),
+        ('FI', 'Accepted')
+    )
+    user = ...
+    date = ...
+    summ = ...
+    products = ...
+    status = ...
+    used_promocode = ...
+    address = ...

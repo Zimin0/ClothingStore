@@ -2,4 +2,12 @@
     <h1>Спасибо за заказ!</h1>
     <p>Мы уже обрабатываем его! Его номер:
         <strong>{{ order.id }}</strong>.</p>
+    <p>Вы будете перенаправлены на главную страницу через 5 секунд.
 {% endblock %}
+
+<script>
+    // Добавить визуальный таймер !!!!
+    setTimeout(function(){
+         window.location.href = '{% url "pages:main" %}';
+      }, 5000);
+</script>
