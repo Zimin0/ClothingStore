@@ -13,7 +13,7 @@ def main(request):
     """ Каталог """
     context = {}
     context['user'] = request.user
-    context['products'] = Product.objects.all()
+    context['products'] = Product.objects.all()[:4]
     return render(request, "pages/main.html", context)
 
 @login_required

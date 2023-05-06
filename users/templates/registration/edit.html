@@ -3,7 +3,8 @@
     <head>
         <meta refresh="2; {% url 'pages:profile' %}">
     </head>
-    {% if form.errors %}
+    <body>
+        {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
                 <p> {{ error }} </p>
@@ -33,6 +34,8 @@
         {% csrf_token %}
         <p><input type="submit" value="Сохранить" onclick=""></p>
     </form>
+    </body>
+    
 </html>
 
 

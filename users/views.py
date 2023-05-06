@@ -48,7 +48,6 @@ def user_login(request):
 
 @login_required
 def edit(request):
-
     def phone_is_exists(request):
         try:
             profile = Profile.objects.get(phone=request.POST['phone']) # has_changed()

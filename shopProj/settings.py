@@ -35,7 +35,6 @@ MEDIA_URL = '/media/'
 
 CART_SESSION_ID = 'cart'
 SESSION_COOKIE_AGE = 600 # 10 minutes
-
 # debug_tool/settings.py
 
 
