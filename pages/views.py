@@ -58,4 +58,7 @@ def limited(request):
     return render(request, "pages/limited.html", context)
 
 def brand_creation(request):
-    return render(request, "pages/brand_creation.html")
+    return render(request, "pages/brand_creation.html") 
+
+def contacts(request):
+    return render(request, "pages/contacts.html") 

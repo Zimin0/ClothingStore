@@ -8,6 +8,7 @@
         <hr>
         <a href="{% url 'pages:limited' %}"><li>Лимитированная коллекция</li></a>
         <a href="{% url 'pages:brand_creation' %}"><li>Создание бренда</li></a>
+        <a href="{% url 'pages:contacts' %}"><li>Контакты</li></a>
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}"><li>Выйти</li></a>
         {% else %}
