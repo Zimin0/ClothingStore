@@ -20,9 +20,8 @@ def order_create(request):
             cart.clear()
             return render(request, 'orders/order/created.html',
                           {'order': order})
-        
     else:
-        if cart.get_total_price() > 0: # если сумма в корзине больше нуля
+        if cart.is_not_empty: # если сумма в корзине больше нуля
             form = OrderCreateForm(initial={
                 'first_name': curr_user.first_name,
                 'last_name': curr_user.last_name,
@@ -30,8 +29,7 @@ def order_create(request):
                 'phone' : curr_user.profile.phone, 
                 'address' : curr_user.profile.address
             })
-            return render(request, 'orders/order/create.html',
-                  {'cart': cart, 'form': form})
+            return render(request, 'orders/order/create.html', {'cart': cart, 'form': form})
         else: # Если корзина пуста
             messages.error(request, 'Корзина пуста!')
             return render(request, 'cart/detail.html', {'cart': cart})

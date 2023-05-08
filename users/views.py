@@ -48,21 +48,15 @@ def user_login(request):
 
 @login_required
 def edit(request):
-    def phone_is_exists(request):
+    def phone_is_exists(request) -> bool:
+        """Введенный телефон уже существует."""
         try:
             profile = Profile.objects.get(phone=request.POST['phone']) # has_changed()
-            if request.user.profile.id != profile.id: # Если пользователь оставил в форме неизмененный номер телефона - то все окей.
-                return True
-            else:
-                return False
+            return (request.user.profile.id != profile.id) # Если пользователь оставил в форме неизмененный номер телефона - то все окей.
         except Profile.DoesNotExist:
             return False
         
     context = {}
-    try: ################### поменять в шаблоне 
-        context['promocode'] = request.user.promocode
-    except:
-        context['promocode'] = "У вас пока его нет!"
 
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)

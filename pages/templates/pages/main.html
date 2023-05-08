@@ -2,13 +2,6 @@
 <html>
     <body> 
         <h1> Главная страница  </h1>
-        {% for prod in products %}
-            <hr>
-            <h2><a href="{% url 'pages:ex_product' prod.id %}">{{ prod.name }}</a></h2>
-            <h3>{{ prod.price }}P</h3>
-            <p>{{ prod.short_description }}</p>
-        {% endfor %}
-
         <hr>
         <p1>Здравствуйте, </p1>
         <a href="{% url 'pages:profile' %}"><b>{{ user.username|default:'Гость' }}</b></a>
@@ -22,5 +15,11 @@
         <a href="{% url 'pages:profile' %}"><li>Личный кабинет</li></a>
         <a href="{% url 'pages:promocode' %}"><li>Оформление промокода</li></a>
         <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a>
+        {% for prod in products %}
+            <hr>
+            <h2><a href="{% url 'pages:ex_product' prod.id %}">{{ prod.name }}</a></h2>
+            <h3>{{ prod.price }}P</h3>
+            <p>{{ prod.short_description }}</p>
+        {% endfor %}
     </body>
 </html>

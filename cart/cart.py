@@ -10,7 +10,6 @@ class Cart(object):
         Инициализируем корзину
         """
 
-        
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
@@ -78,3 +77,8 @@ class Cart(object):
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+
+    @property
+    def is_not_empty(self):
+        """ Пуста ли корзина """
+        return (len(self.cart) > 0)
