@@ -56,3 +56,6 @@ def limited(request):
     context['user'] = request.user
     context['products'] = Product.objects.filter(is_limited=True)[:4]
     return render(request, "pages/limited.html", context)
+
+def brand_creation(request):
+    return render(request, "pages/brand_creation.html")
