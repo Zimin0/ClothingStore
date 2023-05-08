@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 def main(request):
-    """ Каталог """
+    """ Каталог главной страницы"""
     context = {}
     context['user'] = request.user
     context['products'] = Product.objects.all()[:4]
@@ -50,3 +50,9 @@ def ex_product(request, prod_id):
                'cart_product_form': cart_product_form}
     context['product'] = Product.objects.get(id=prod_id)
     return render(request, 'pages/product.html', context)
+
+def limited(request):
+    context = {}
+    context['user'] = request.user
+    context['products'] = Product.objects.filter(is_limited=True)[:4]
+    return render(request, "pages/limited.html", context)

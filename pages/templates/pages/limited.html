@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
     <body> 
-        <h1> Главная страница  </h1>
+        <h1> Лимитированная коллекция  </h1>
         <hr>
         <p1>Здравствуйте, </p1>
         <a href="{% url 'pages:profile' %}"><b>{{ user.username|default:'Гость' }}</b></a>
         <hr>
-        <a href="{% url 'pages:limited' %}"><li>Лимитированная коллекция</li></a>
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}"><li>Выйти</li></a>
         {% else %}
@@ -15,14 +14,10 @@
         {% endif %}
         <a href="{% url 'pages:profile' %}"><li>Личный кабинет</li></a>
         <a href="{% url 'pages:promocode' %}"><li>Оформление промокода</li></a>
-        <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a> 
+        <a href="{% url 'cart:cart_detail' %}"><li>Корзина</li></a>
         {% for prod in products %}
             <hr>
-            <h2><a href="{% url 'pages:ex_product' prod.id %}">{{ prod.name }}
-                {% if prod.is_limited %}
-                (лимитированный)
-                {% endif %}
-            </a></h2>
+            <h2><a href="{% url 'pages:ex_product' prod.id %}">{{ prod.name }} (лимитированный)</a></h2>
             <h3>{{ prod.price }}P</h3>
             <p>{{ prod.short_description }}</p>
         {% endfor %}
