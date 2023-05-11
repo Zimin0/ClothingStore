@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'users',
     'cart',
     'orders',
-    'warehouse',
+    'warehouse.apps.WarehouseConfig',
     'debug_toolbar',
     
 ]
