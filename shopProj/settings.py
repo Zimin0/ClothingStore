@@ -31,6 +31,8 @@ LOGIN_REDIRECT_URL = 'pages:main'
 LOGOUT_REDIRECT_URL = 'pages:main'
 MEDIA_ROOT = f'{BASE_DIR}/media'
 MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/static/'
 # Application definition
 
 CART_SESSION_ID = 'cart'
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'users',
     'cart',
     'orders',
+    'warehouse',
     'debug_toolbar',
     
 ]
