@@ -40,6 +40,7 @@ def order_create(request):
             if request.user.is_anonymous:
                 form = OrderCreateForm()
             else:
+                
                 form = OrderCreateForm(initial={ # передаем в форме значения, введенные в личном кабинете. 
                     'first_name': curr_user.first_name,
                     'last_name': curr_user.last_name,
