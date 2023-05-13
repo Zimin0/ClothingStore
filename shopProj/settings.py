@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%k+7ic29ibe=$!3cqt++*sqkr3l*88e9vpdb@c(02jd_*gf3(t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com']
+ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com', '*']
 
 LOGIN_REDIRECT_URL = 'pages:main'
 LOGOUT_REDIRECT_URL = 'pages:main'
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'users',
     'cart',
     'orders',
-    'warehouse.apps.WarehouseConfig',
+    #'warehouse.apps.WarehouseConfig',
     'debug_toolbar',
     
 ]

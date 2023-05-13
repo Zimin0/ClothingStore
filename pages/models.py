@@ -38,6 +38,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название", null=True, blank=False)
     short_description = models.CharField(max_length=300, verbose_name="Краткое описание", null=True, blank=False, help_text="Будет выводиться на главной странице. Максимум - 300 символов.")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="categ_products", verbose_name="Категория", help_text="Группа товара, по которой будет фильтроваться их список.")
+    amount = models.IntegerField(verbose_name="Кол-во", default=0, help_text="Количество товара на складе") # editable = False
     male_female = models.CharField(max_length=10, choices=SEX, default="U")
     price = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="Цена", default=0.0, blank=False) 
     description = models.TextField(max_length=1000, verbose_name="Длинное описание товара. Будет выводиться на его личной странице.", null=True, blank=True)
@@ -99,7 +100,7 @@ class Promocode(models.Model):
             code += choice(signs)
         return code
     
-    def is_valid(self):
+    def is_valid(self): # поменять на is_valid_date() или что-то такое.
         """ Не истек ли срок годности промокода. """
         return (self.end_date - datetime.datetime.now(datetime.timezone.utc)).days > 0
     

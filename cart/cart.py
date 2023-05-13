@@ -4,6 +4,7 @@ from pages.models import Product
 
 # https://pocoz.gitbooks.io/django-v-primerah/content/glava-7-sozdanie-internet-magazina/sozdanie-korzini/hranenie-korzini-pokupok-v-sessiyah.html
 class Cart(object):
+    __promocode_applied = False
 
     def __init__(self, request):
         """
@@ -42,8 +43,12 @@ class Cart(object):
         """
         Подсчет стоимости товаров в корзине.
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in
-                   self.cart.values())
+        if self.is_promocode_applied:
+            return 0.9*float(sum(Decimal(item['price']) * item['quantity'] for item in
+                   self.cart.values()))
+        else:
+            return sum(Decimal(item['price']) * item['quantity'] for item in
+                        self.cart.values())
     
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
@@ -82,3 +87,11 @@ class Cart(object):
     def is_not_empty(self):
         """ Пуста ли корзина """
         return (len(self.cart) > 0)
+    
+    @property
+    def is_promocode_applied(self):
+        """ Начислена ли скидка с промокода"""
+        return Cart.__promocode_applied
+    
+    def add_promo(self):
+        Cart.__promocode_applied = True

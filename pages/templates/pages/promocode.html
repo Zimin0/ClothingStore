@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
     <body> 
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% if user.is_authenticated %}
 
         {% else %}
@@ -13,7 +20,7 @@
             <h1> Оформление промокода для пользователя "{{ user }}" </h1>
             <hr>
             <h2> Нажимаю кнопку "Оформить" Я подтверждаю, что ознакомился с пользовательским соглашением и даю согласие на обработку своих персональных данных.</h2>
-            <form method="post" >
+            <form method="post">
                 {% csrf_token %}
                 <button type="submit" name="makepromo" value="yes">Оформить</button>
             </form>

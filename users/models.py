@@ -7,8 +7,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField(max_length=12, verbose_name='Номер телефона', null=True, unique=True)
     address = models.CharField(max_length=300, verbose_name="Адрес доставки", blank=True, null=True)
+    linked_to_promer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="promo_owner_linked_to", verbose_name='Владелец промокода', help_text='Владелец промокода, к которому привязан этот редактируемый пользователь. Поле может быть пустым.', blank=True, null=True)
     
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

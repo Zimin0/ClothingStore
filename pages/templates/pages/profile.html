@@ -5,7 +5,7 @@
             <h1> Личный кабинет: {{ user }}  </h1>
             <h1> Имя: {{ user.first_name }}  </h1>
             <h1> Фамилия: {{ user.last_name }}  </h1>
-            <h1> Ваш промокод: {{ user.promocode.str_v2|default:"Вы не оформили промоко!" }} </h1>
+            <h1> Ваш промокод: {{ user.promocode.str_v2|default:"Вы не оформили промокод!" }} </h1>
             <h1> Телефон: {{ user.profile.phone|default:"Заполните поле телефона!" }} </h1>
             <h1> Адрес: {{  user.profile.address|default:"Заполните поле адреса!" }} </h1>
             <hr>

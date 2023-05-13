@@ -48,6 +48,7 @@ def user_login(request):
 
 @login_required
 def edit(request):
+    # Лучше перенести валидацию в clean_<field_name> в forms.py
     def phone_is_exists(request) -> bool:
         """Введенный телефон уже существует."""
         try:
