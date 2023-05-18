@@ -9,7 +9,7 @@ class OrderCreateForm(forms.ModelForm):
     promocode = forms.CharField(label='Промокод', required=False)
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code']
+        fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'postal_code']
     
     def clean_promocode(self):
         data = self.cleaned_data

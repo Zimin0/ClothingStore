@@ -52,8 +52,8 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Данные сохранены!')
-            #return redirect('pages:profile')
+            #messages.success(request, 'Данные сохранены!')
+            return redirect('pages:profile')
         else:
             return render(request,
                   'registration/edit.html',

@@ -13,10 +13,6 @@
         </ul>
         <p>Итого: {{ cart.get_total_price }}₽</p>
     </div>
-    <form action="{% url 'orders:order_create' %}" method="post" class="order-form">
-        <p><input type="submit" name="status" value="1">Проверить промокод</p>
-        {% csrf_token %}
-    </form>
     <form action="." method="post" class="order-form">
         {{ form.as_p }}
         <p><input type="submit" value="Подтвердить"></p>

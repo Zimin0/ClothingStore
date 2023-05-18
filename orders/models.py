@@ -24,8 +24,8 @@ class Order(models.Model):
     # телефон + промокод
     class Meta:
         ordering = ('-created',)
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
+        verbose_name = 'Оформленный заказ'
+        verbose_name_plural = 'Оформленные заказы'
 
     def __str__(self): # Надо поменять 
         return 'Заказ №{}'.format(self.id) 
@@ -45,24 +45,3 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
-
-
-
-class Purchase(models.Model):
-    """ Заказ/покупка """
-
-    class Meta:
-        verbose_name = "Запрос на покупку"
-        verbose_name_plural = "Запросы на покупки"
-    
-    STATUS = (
-        ('RE', 'Rejected'),
-        ('FI', 'Accepted')
-    )
-    user = ...
-    date = ...
-    summ = ...
-    products = ...
-    status = ...
-    used_promocode = ...
-    address = ...

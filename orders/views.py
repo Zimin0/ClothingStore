@@ -18,7 +18,7 @@ def order_create(request):
             order = form.save()
             promo = request.POST['promocode']
             if promo != '' and not(cart.is_promocode_applied): # если промокод введен пользователем
-                order.promocode_used = Promocode.objects.get(code=promo) # не работает!!!!!!!!1
+                order.promocode_used = Promocode.objects.get(code=promo) 
                 curr_user.profile.linked_to_promer = Promocode.objects.get(code=promo).user
                 curr_user.save() # возможно, стоит удалить
                 cart.add_promo() # Добавляет метку, что промокод уже применен.
