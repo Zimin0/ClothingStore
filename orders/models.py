@@ -13,7 +13,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50, verbose_name='Имя', null=True)
     last_name = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
     email = models.EmailField(verbose_name='Электронный адрес', null=True)
-    phone = models.CharField(max_length=12, verbose_name="Номер телефона", null=True, blank=False)
+    phone = models.CharField(max_length=12, verbose_name="Номер телефона", null=True, blank=False, unique=True)
     address = models.CharField(max_length=250, verbose_name='Адрес', null=True)
     postal_code = models.CharField(max_length=6, blank=True, null=True, verbose_name="Почтовый индекс" )
     promocode_used = models.ForeignKey(Promocode, on_delete=models.SET_NULL, verbose_name="Использованный промокод", blank=True, null=True)

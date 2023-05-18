@@ -14,14 +14,15 @@ def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            # Сохранить в модели Order использованный промокод
             # Начислить скидку 10 процентов
-            
             order = form.save()
             promo = request.POST['promocode']
             if promo != '' and not(cart.is_promocode_applied): # если промокод введен пользователем
                 order.promocode_used = Promocode.objects.get(code=promo) # не работает!!!!!!!!1
+                curr_user.profile.linked_to_promer = Promocode.objects.get(code=promo).user
+                curr_user.save() # возможно, стоит удалить
                 cart.add_promo() # Добавляет метку, что промокод уже применен.
+                order.save()
                 
             for item in cart:
                 OrderItem.objects.create(order=order,
@@ -37,10 +38,9 @@ def order_create(request):
             return render(request, 'orders/order/create.html', {'cart': cart, 'form': form})
     else: # Если пойман метод GET
         if cart.is_not_empty: # если сумма в корзине больше нуля
-            if request.user.is_anonymous:
-                form = OrderCreateForm()
+            if request.user.is_anonymous: # Если заказ оформляет незарегестрировавшийся пользователь
+                form = OrderCreateForm() # Пустая форма
             else:
-                
                 form = OrderCreateForm(initial={ # передаем в форме значения, введенные в личном кабинете. 
                     'first_name': curr_user.first_name,
                     'last_name': curr_user.last_name,
