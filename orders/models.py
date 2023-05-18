@@ -5,6 +5,7 @@ from pages.models import Promocode
 
 class Order(models.Model):
     STATUS = (
+        ('OS', 'Без статуса'),
         ('RE', 'Отменен'),
         ('OTW', 'На пути к заказчику'),
         ('FI', 'Завершен'),
@@ -20,8 +21,8 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
     paid = models.BooleanField(default=False, verbose_name="Ополачен")
-    #status = models.CharField(max_length=3, )
-    # телефон + промокод
+    status = models.CharField(max_length=3, choices=STATUS, default='OS', null=True, verbose_name='Статус')
+
     class Meta:
         ordering = ('-created',)
         verbose_name = 'Оформленный заказ'
