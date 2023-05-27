@@ -10,22 +10,28 @@ class Supply(models.Model):
     
     def __str__(self):
         return f"Поставка от {self.add_date.strftime('%d.%m.%Y')}"
+
+
     
     add_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации поставки") # дата регистрации поставки
 
 class SupplyItem(models.Model):
+    """ Реализует сочетание товара и его количества. """
     class Meta:
         verbose_name = 'Товар из поставки'
         verbose_name_plural = 'Товары из поставки'
     
     def __str__(self):
         return f"Часть поставки №{self.supply_link.id}"
+    
+    def save(self, *args, **kwargs):
+        self.product.amount += self.amount # Добавляет кол-во товаров в характеристику товара 
+        self.product.save()
+        print("Кол-во товара обновлено!")
+        super(SupplyItem, self).save(*args, **kwargs)
 
-    """ Реализует сочетание товара и его количества. """
+    
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар", related_name='+', blank=False,  help_text="Товар, пришедший на склад в поствке.")
     amount = models.IntegerField(default=1, verbose_name='Кол-во товара' )
-    supply_link = models.ForeignKey(Supply, on_delete=models.CASCADE, verbose_name="Ссылка на поставку", blank=False, related_name='sup_item')
+    supply_link = models.ForeignKey(Supply, on_delete=models.CASCADE, verbose_name="Ссылка на поставку", blank=False, related_name='sup_items')
     
-    # def update_products_amount(self):
-    #     """ Добавляет к товарам кол-во пришедших с поставкой. """
-    #     pass
