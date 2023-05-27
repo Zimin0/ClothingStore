@@ -26,3 +26,6 @@ class SupplyItem(models.Model):
     amount = models.IntegerField(default=1, verbose_name='Кол-во товара' )
     supply_link = models.ForeignKey(Supply, on_delete=models.CASCADE, verbose_name="Ссылка на поставку", blank=False, related_name='sup_item')
     
+    # def update_products_amount(self):
+    #     """ Добавляет к товарам кол-во пришедших с поставкой. """
+    #     pass

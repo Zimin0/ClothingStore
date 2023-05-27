@@ -119,7 +119,7 @@ class Promocode(models.Model):
         super(Promocode, self).save(*args, **kwargs)
         
     code = models.CharField(max_length=10, verbose_name="Код промокода", null=True, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Чей промокод", related_name='promocode', editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Чей промокод", related_name='promocode', null=True)
     percent = models.IntegerField(verbose_name="Процент скидки (%)", default=10)
     add_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(blank=True, editable=False)

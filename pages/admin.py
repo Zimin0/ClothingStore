@@ -1,8 +1,17 @@
 from django.contrib import admin
 from .models import Promocode, Product, Category, Photo
+from django.contrib.auth.models import User
+from users.models import Profile
 
 class PromocodeAdmin(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        """ Для фильтрации юзеров в админке, у которых уже есть прокод."""
+        form = super(PromocodeAdmin, self).get_form(request, obj, **kwargs)
+        print(form.base_fields)
+        form.base_fields['user'].queryset = User.objects.filter(promocode=None)
+        return form
     list_display = ('pk', 'code', 'user', 'add_date', 'end_date', 'days_left')
+
 
 class PhotoAdmin(admin.StackedInline):
     model = Photo
