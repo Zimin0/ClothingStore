@@ -14,5 +14,5 @@ class SupplyAdmin(admin.ModelAdmin):
         model = Supply
 
 
+
 admin.site.register(Supply, SupplyAdmin)
-# admin.site.register(SupplyItem)

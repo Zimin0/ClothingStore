@@ -3,7 +3,7 @@ from pages.models import Product
 
 
 class Supply(models.Model):
-    """ Поставка товаров на склад"""
+    """ Поставка товаров на склад."""
     class Meta:
         verbose_name = 'Поставка товаров на склад'
         verbose_name_plural = 'Поставки товаров на склад'
@@ -11,8 +11,6 @@ class Supply(models.Model):
     def __str__(self):
         return f"Поставка от {self.add_date.strftime('%d.%m.%Y')}"
 
-
-    
     add_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации поставки") # дата регистрации поставки
 
 class SupplyItem(models.Model):
