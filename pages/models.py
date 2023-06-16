@@ -114,7 +114,6 @@ class Promocode(models.Model):
             now_plus_month = now.timestamp() + ( 30 * 24 * 60 * 60 )
             new_now = datetime.datetime.fromtimestamp(now_plus_month) # переводим из секунд в объект datetime
             self.end_date = new_now
-
             self.code = self.generate_code()
         super(Promocode, self).save(*args, **kwargs)
         
