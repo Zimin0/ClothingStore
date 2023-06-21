@@ -14,12 +14,12 @@ def order_create(request):
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST) 
-        print("------------------Обработка-заказа------------------")
-        print(form.process_the_order(request.user))
-        print("----------------------------------------------------")
         if form.is_valid():
             # Начислить скидку 10 процентов
             order = form.save()
+            print("------------------Обработка-заказа------------------")
+            print(order.process_the_order(request.user))
+            print("----------------------------------------------------")
             promo = request.POST['promocode']
             if promo != '' and not(cart.is_promocode_applied): # если промокод введен пользователем
                 order.promocode_used = Promocode.objects.get(code=promo) 
