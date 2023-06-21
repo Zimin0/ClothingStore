@@ -11,8 +11,12 @@ logger = logging.getLogger(__name__)
 def order_create(request):
     cart = Cart(request) # достаем объект корзины из сессии
     curr_user = request.user
+
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.POST) 
+        print("------------------Обработка-заказа------------------")
+        print(form.process_the_order(request.user))
+        print("----------------------------------------------------")
         if form.is_valid():
             # Начислить скидку 10 процентов
             order = form.save()

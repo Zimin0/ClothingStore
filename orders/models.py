@@ -36,7 +36,7 @@ class Order(models.Model):
     status = models.CharField(max_length=3, choices=STATUS, default='OS', null=True, verbose_name='Статус')
     payment_status = models.CharField(max_length=2, verbose_name='Как оплачен заказ?', choices=PAYMENT, default='NP')
         
-    def process_the_order(self, user):
+    def process_the_order(self, user) -> dict:
         """ 
         Обрабатывает заказ согласно схеме. 
         Возвращает, что нужно сделать/начислить/тп
@@ -68,6 +68,7 @@ class Order(models.Model):
                 else:
                     data['customer'] = 'discount10' # (+++)
                     data['seller'] = 'bonus09'
+        return data
 
 
 
