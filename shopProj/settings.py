@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%k+7ic29ibe=$!3cqt++*sqkr3l*88e9vpdb@c(02jd_*gf3(t
 
 DEBUG = True  # 1
 
-ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com', '*']
+ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com', '*', '8206-91-238-229-3.ngrok-free.app']
 
 LOGIN_REDIRECT_URL = 'pages:main'
 LOGOUT_REDIRECT_URL = 'pages:main'
@@ -40,7 +40,7 @@ CART_SESSION_ID = 'cart'
 SESSION_COOKIE_AGE = 600 # 10 minutes
 # debug_tool/settings.py
 
-
+CSRF_TRUSTED_ORIGINS = ['https://8206-91-238-229-3.ngrok-free.app']
 
 
 INSTALLED_APPS = [
@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'orders',
     'warehouse',
     'debug_toolbar',
-    
 ]
 
 MIDDLEWARE = [

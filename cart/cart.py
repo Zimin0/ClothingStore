@@ -39,16 +39,16 @@ class Cart(object):
         """
         return sum(item['quantity'] for item in self.cart.values())
     
-    def get_total_price(self):
+    def get_total_price(self) -> float:
         """
-        Подсчет стоимости товаров в корзине.
+        Подсчет чистой стоимости всех товаров в корзине.
         """
         if self.is_promocode_applied:
             return 0.9*float(sum(Decimal(item['price']) * item['quantity'] for item in
                    self.cart.values()))
         else:
-            return sum(Decimal(item['price']) * item['quantity'] for item in
-                        self.cart.values())
+            return float(sum(Decimal(item['price']) * item['quantity'] for item in
+                        self.cart.values()))
     
     def clear(self):
         del self.session[settings.CART_SESSION_ID]

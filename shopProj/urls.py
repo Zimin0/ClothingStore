@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('pages.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
+    path('payment/', include('yookassa_app.urls')),
 ]
 
 if settings.DEBUG:

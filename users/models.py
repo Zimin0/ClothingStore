@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 class Profile(models.Model):
     class Meta:
@@ -16,6 +18,13 @@ class Profile(models.Model):
     address = models.CharField(max_length=300, verbose_name="Адрес доставки", blank=True, null=True)
     linked_to_promer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="promo_owner_linked_to", verbose_name='Владелец промокода', help_text='Владелец промокода, к которому привязан этот редактируемый пользователь. Поле может быть пустым.', blank=True, null=True, default=None)
     bought_already = models.BooleanField(verbose_name="Была ли совершена хотя бы 1 покупка", default=False)
+    points = models.DecimalField(
+        verbose_name="Баллы партнерской программы",
+        default=0,
+        max_digits=7, 
+        decimal_places=2, 
+        validators=[MinValueValidator(Decimal('0.01'))]
+    )
     
     def already_bought(self) -> bool:
         """ Покупал ли юзер ранее."""

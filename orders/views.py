@@ -1,39 +1,59 @@
 from django.shortcuts import render, HttpResponse
-from .models import OrderItem, Order
+from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart    
 from django.contrib import messages
 from pages.models import Promocode 
+import decimal
 
 import logging
 logger = logging.getLogger(__name__)
 
 def order_create(request):
+    print(request.user.profile.linked_to_promer is not None)
     cart = Cart(request) # достаем объект корзины из сессии
     curr_user = request.user
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST) 
         if form.is_valid():
-            # Начислить скидку 10 процентов
             order = form.save()
-            print("------------------Обработка-заказа------------------")
-            print(order.process_the_order(request.user))
-            print("----------------------------------------------------")
             promo = request.POST['promocode']
             if promo != '' and not(cart.is_promocode_applied): # если промокод введен пользователем
-                order.promocode_used = Promocode.objects.get(code=promo) 
-                curr_user.profile.linked_to_promer = Promocode.objects.get(code=promo).user
-                curr_user.save() # возможно, стоит удалить
+                ### создать объект payment yookassa
+                ### сохранить чек (или сохранится в юкассе)
+                ### добавить редирект на оплату
+                promocode_used = Promocode.objects.get(code=promo) # получаем введенный промокод
+                total_price = cart.get_total_price() # чистая суммарная цена всех товаров в корзине
+                order.promocode_used = promocode_used # Добавляем в объект заказа использованный промокод
+                total_price, points_to_promo_owner = order.process_the_order(request.user, total_price, promocode_used.percent, promocode_used.user, promocode_used.pk)
+                order.total_price = total_price 
+                promocode_used.user.profile.points += decimal.Decimal(points_to_promo_owner)
+                promocode_used.user.profile.save()
+                print("------------------Обработка-заказа------------------")
+                print(total_price, points_to_promo_owner)
+                print("----------------------------------------------------")
+
+                #### Загнать в отдельную функцию в классе Order ###
+                
+                ###################################################
                 cart.add_promo() # Добавляет метку, что промокод уже применен.
                 order.save()
-                
+            
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
                                          price=item['price'],
                                          quantity=item['quantity'])
+            
             cart.clear() # очистка корзины
+
+            #### Загнать в отдельную функцию в классе Order ###
+            curr_user.profile.bought_already = True  
+            curr_user.save() # возможно, стоит удалить
+            print(f'Для {curr_user} отмечено, что он покупал ранее.')  
+
+            ###################################################
             return render(request, 'orders/order/created.html',
                           {'order': order,
                            'sum': cart.get_total_price()})

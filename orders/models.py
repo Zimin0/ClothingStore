@@ -1,7 +1,11 @@
 from django.db import models
-from pages.models import Product
-from pages.models import Promocode
+from django.contrib.auth.models import User
+from pages.models import Product, Promocode
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Order(models.Model):
     class Meta:
@@ -35,41 +39,95 @@ class Order(models.Model):
     paid = models.BooleanField(default=False, verbose_name="Оплачен")
     status = models.CharField(max_length=3, choices=STATUS, default='OS', null=True, verbose_name='Статус')
     payment_status = models.CharField(max_length=2, verbose_name='Как оплачен заказ?', choices=PAYMENT, default='NP')
+    total_price = models.DecimalField(
+        verbose_name="Стоимость",
+        help_text='Окончательная стоимость с учетом всех скидок и комиссий, которую заплатит покупатель',
+        default=0,
+        max_digits=12, 
+        decimal_places=2, 
+        validators=[MinValueValidator(Decimal('0.01'))]
+    )
         
-    def process_the_order(self, user) -> dict:
+    def process_the_order(self, user:User, price:float, promo_percent:int, promo_owner:User, promo_pk:int) -> dict:
         """ 
         Обрабатывает заказ согласно схеме. 
-        Возвращает, что нужно сделать/начислить/тп
+        Возвращает, что нужно сделать/начислить/т.п.
+        * user - покупатель
+        * price - чистая цена корзины товаров
+        * promo_percent - скидка с промокода в процентах
+        * promo_owner - владелец промокода
+        * pk промокода
         """
-        data = {
-            'customer': None,
-            'seller': None,
-            'message': None
-        }
+
+        points_to_promo_owner = 0 # кол-во баллов, которые будут начислены владельцу промокода.
+        total_price = 0 # будет записано в Order объект
+        total_price += price # чистая сумма товаров в корзине
+        total_price += Order.get_yookassa_commission(price) # добавляем в суммарную цену комиссию юкассы
+
 
         if not(user.profile.already_bought()): # если пользователь ранее не совершал покупки
-            if not(self.does_promo_used()): # если при покупке не был введен промокод
-                # занести юзера в бд (ххх)
-                pass
-            else: # если при покупке был введен промокод
-                data['customer'] = 'discount10' # (хх+)
-                data['seller'] = 'bonus09'
-        else: # если пользователь ранее совершал покупки
-            if not(self.does_promo_used_early(user)): # если покупатель еще не привязан к промокоду
-                if not(self.does_promo_used()): # если при покупке не был введен промокод
-                    # Вы уже покупали у нас # (+хх)
-                    data['message'] = 'Кажется, Вы уже покупали у нас!'
-                    pass
-                else: # если при покупке был введен промокод
-                    data['customer'] = 'discount10' # (+х+)
-            else: # если покупатель уже привязан к промокоду 
-                if not(self.does_promo_used()): # если при покупке не был введен промокод
-                    data['seller'] = 'bonus01' # (++x)
-                else:
-                    data['customer'] = 'discount10' # (+++)
-                    data['seller'] = 'bonus09'
-        return data
+            print(f'{user} ранее не совершал покупки')
+            if not(self.does_promo_used()): # если при этой покупке не был введен промокод
+                # занести юзера в бд (ххх) ??????????????????????
+                print(f'{user} при покупке не был введен промокод')
+                print('(ххх)')
 
+            else: # если при этой покупке был введен промокод
+                total_price -= Order.get_promo_discout(price, promo_percent) # data['customer'] = 'discount10' 
+                points_to_promo_owner += Order.get_bonus09(price) # data['seller'] = 'bonus09'
+                user.profile.linked_to_promer = Promocode.objects.get(pk=promo_pk).user # привязываем текущего пользователя к промокоду
+                print(f'{user} при покупке был введен промокод')
+                print('(хх+)')
+
+        else: # если пользователь ранее совершал покупки
+            print(f'{user} ранее совершал покупки')
+            if not(self.does_promo_used_early(user)): # если покупатель еще не привязан к промокоду
+                print(f'{user} еще не привязан к промокоду')
+                if not(self.does_promo_used()): # если при этой покупке не был введен промокод
+                    data['message'] = 'Кажется, Вы уже покупали у нас!'
+                    print(f'{user} при покупке не был введен промокод')
+                    print('(+хх)')
+
+                else: # если при этой покупке был введен промокод
+                    total_price -= Order.get_promo_discout(price, promo_percent) # data['customer'] = 'discount10' # (+х+)
+                    print(f'{user} при покупке был введен промокод')
+                    print('(+х+)')
+
+            else: # если покупатель уже привязан к промокоду 
+                print(f'{user} уже привязан к промокоду')
+                if not(self.does_promo_used()): # если при этой покупке не был введен промокод
+                    points_to_promo_owner += Order.get_bonus01(price) # data['seller'] = 'bonus01' # (++x)
+                    print(f'{user} при покупке не был введен промокод')
+                    print('(++x)')
+
+                else: # если при этой покупке был введен промокод
+                    total_price -= Order.get_promo_discout(price, promo_percent) # data['customer'] = 'discount10' # (+++)
+                    points_to_promo_owner += Order.get_bonus09(price) # data['seller'] = 'bonus09'
+                    print('(+++)')
+                    print(f'{user} при покупке был введен промокод')
+
+        return total_price, points_to_promo_owner
+
+
+    @staticmethod
+    def get_yookassa_commission(summ) -> float:
+        """ Возвращает кол-во (float) коммиссии Yookassa. """
+        comm = 5 # в процентах
+        return summ * comm / 100
+
+    @staticmethod
+    def get_promo_discout(summ, discount:int) -> float:
+        """ Возвращает кол-во (float) скидки на заказ. Discount в процентах. """ 
+        return summ * discount / 100
+    
+    @staticmethod
+    def get_bonus09(summ):
+        return summ * 9 / 100
+    
+    @staticmethod
+    def get_bonus01(summ):
+        return summ * 1 / 100
+    
 
 
     def __str__(self): # Надо поменять 
@@ -80,11 +138,11 @@ class Order(models.Model):
     
     def does_promo_used(self) -> bool:
         """ Введен ли промокод в данном заказе. """
-        return not(self.promocode_used is None)
+        return self.promocode_used is not None
 
     def does_promo_used_early(self, user):
         """ Привязан ли данный покупатель к промокоду. """
-        return not(user.profile.linked_to_promer is None)
+        return user.profile.linked_to_promer is not None
 
 
 class OrderItem(models.Model):
@@ -98,3 +156,7 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+
+
+
