@@ -1,73 +1,99 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from orders.models import Order
+from yookassa import Configuration, Payment
+#import var_dump as var_dump
+import random
 
 @csrf_exempt
-def main(request):
+def status(request):
+    """ Отлавливает сообщения от юкассы с обновлениями статусов заказов - оплата"""
+
     print("--------------Данные от Yookassa--------------")
     print(json.loads(request.body))
     print('----------------------------------------------')
+
+    py_data = json.loads(request.body) # преобразуем в формат python
+
+    order_pk = py_data['object']['metadata']['orderNumber'] # номер заказа в базе данных через metadata
+    event = py_data['event'] 
+    
+    paid_order = Order.objects.filter(pk=order_pk).first()
+    if event == 'payment.succeeded': # подтверждение оплаты 
+        print(f"Пришла оплата на заказ {order_pk}")
+        if paid_order is not None: # если такой заказ существует
+            paid_order.paid = True
+            paid_order.status = 'OTW' 
+            paid_order.payment_status = 'ON'
+            paid_order.save()
+        else:
+            print(f'Заказа под номером {order_pk} не существует!!!')
+            raise ValueError
+    elif event == 'payment.canceled':
+        paid_order.paid = False
+        paid_order.payment_status = 'NA'
+        paid_order.status = 'RTP'
+        print(f"Пришла отмена оплаты на заказ {order_pk}")
+    else:
+        print("Неизвестный тип сообщения от юкассы!")
     return HttpResponse('good')
 
-@csrf_exempt
-def create(request):
-    from yookassa import Configuration, Payment
-    #import var_dump as var_dump
-    import random
 
-    Configuration.configure('223675', 'test_TTAs0tK1cXQttfoCwGx6R2vYj_YUYuxoIJW2YdJB9ck')
-
-    val = random.randint(1000,5000)
-
-    res = Payment.create(
-        {
-            "amount": {
-                "value": val,
-                "currency": "RUB"
-            },
-            "confirmation": {
-                "type": "redirect",
-                "return_url": "https://merchant-site.ru/return_url"
-            },
-            "capture": True,
-            "description": f"Заказ №{val}",
-            "metadata": {
-                'orderNumber': f'{val}'
-            },
-            "receipt": {
-                "customer": {
-                    "full_name": "Ivanovg Ivan Ivanovich",
-                    "email": "email@email.ru",
-                    "phone": "79211232145",
-                    "inn": "6354321814"
-                },
-                "items": [
-                    {
-                        "description": "Переносное зарядное устройство Хувей",
-                        "quantity": "1.00",
-                        "amount": {
-                            "value": val,
-                            "currency": "RUB"
-                        },
-                        "vat_code": "2",
-                        "payment_mode": "full_payment",
-                        "payment_subject": "commodity",
-                        "country_of_origin_code": "CN",
-                        "product_code": "44 4D 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00",
-                        "customs_declaration_number": "10714040/140917/0090376",
-                        "excise": "20.00",
-                        "supplier": {
-                            "name": "string",
-                            "phone": "string",
-                            "inn": "string"
-                        }
-                    },
-                ]
-            }
-        }
-    )
-
-    #var_dump.var_dump(res)
-    #var_dump.var_dump(res)
-    return HttpResponse(f"<h1>Заказ №{val} создан! </h1> <br> <a>{res.confirmation.confirmation_url}</a>")
+""" {
+   "type":"notification",
+   "event":"payment.succeeded",
+   "object":{
+      "id":"2c3685b4-000f-5000-8000-125c39467cd9",
+      "status":"succeeded",
+      "amount":{
+         "value":"240000.00",
+         "currency":"RUB"
+      },
+      "income_amount":{
+         "value":"231600.00",
+         "currency":"RUB"
+      },
+      "description":"Заказ №66",
+      "recipient":{
+         "account_id":"223675",
+         "gateway_id":"2094170"
+      },
+      "payment_method":{
+         "type":"bank_card",
+         "id":"2c3685b4-000f-5000-8000-125c39467cd9",
+         "saved":false,
+         "title":"Bank card *4477",
+         "card":{
+            "first6":"555555",
+            "last4":"4477",
+            "expiry_year":"2024",
+            "expiry_month":"11",
+            "card_type":"MasterCard",
+            "issuer_country":"US"
+         }
+      },
+      "captured_at":"2023-07-04T19:25:13.535Z",
+      "created_at":"2023-07-04T19:24:36.191Z",
+      "test":true,
+      "refunded_amount":{
+         "value":"0.00",
+         "currency":"RUB"
+      },
+      "paid":true,
+      "refundable":true,
+      "metadata":{
+         "orderNumber":"66"
+      },
+      "authorization_details":{
+         "rrn":"316196843308140",
+         "auth_code":"803511",
+         "three_d_secure":{
+            "applied":true,
+            "protocol":"v1",
+            "method_completed":false,
+            "challenge_completed":true
+         }
+      }
+   }
+}"""

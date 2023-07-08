@@ -16,8 +16,16 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField(max_length=12, verbose_name='Номер телефона', null=True, unique=True, help_text='Номер телефона в формате +79112345678')
     address = models.CharField(max_length=300, verbose_name="Адрес доставки", blank=True, null=True)
-    linked_to_promer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="promo_owner_linked_to", verbose_name='Владелец промокода', help_text='Владелец промокода, к которому привязан этот редактируемый пользователь. Поле может быть пустым.', blank=True, null=True, default=None)
+    linked_to_promer = models.ForeignKey(User, 
+                                        on_delete=models.CASCADE, 
+                                        related_name="promo_owner_linked_to", 
+                                        verbose_name='Владелец промокода', 
+                                        help_text='Владелец промокода, к которому привязан этот редактируемый пользователь. Поле может быть пустым.', 
+                                        blank=True, 
+                                        null=True, 
+                                        default=None)
     bought_already = models.BooleanField(verbose_name="Была ли совершена хотя бы 1 покупка", default=False)
+    card16 = models.CharField(max_length=16 ,verbose_name="Номер карты", help_text='16 цифр на банковской карте', blank=True, null=True)
     points = models.DecimalField(
         verbose_name="Баллы партнерской программы",
         default=0,
@@ -25,6 +33,7 @@ class Profile(models.Model):
         decimal_places=2, 
         validators=[MinValueValidator(Decimal('0.01'))]
     )
+
     
     def already_bought(self) -> bool:
         """ Покупал ли юзер ранее."""

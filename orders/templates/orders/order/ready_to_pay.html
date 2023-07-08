@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <h1>Ваш заказ зарегестрирован! </h1>
+        <h2>Сумма вашего заказа: {{ sum }}</h2>
+        <h2>Теперь вы можете оплатить его:</h2>
+        <a href="{{ pay_link }}"><input type="submit" value="Оплатить заказ"></a>
+    </body>
+</html>
+
+<script>
+    setTimeout(function(){
+         window.location.href = '{{ pay_link }}';
+      }, 5000);
+</script>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <body> 
+        hr>
+        <a href="{% url 'pages:main' %}"><li>Главная</li></a>
+        {% if user.is_authenticated %}
+        {% for order in user_orders %}
+            <h3> Заказ № {{ order.pk }}</h3>
+            <h3> Статус: {{ order.status }} </h3>
+            <h3> Статус оплаты: {{ order.paid }} </h3>
+        {% endfor %}
+        {% else %}
+            <hr>
+            <h1> <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'users:register' %}">зарегестрируйтесь</a>,  чтобы пользоваться личным кабинетом.</h1>
+            <a href="{% url 'login' %}"><li>Войти</li></a>
+            <a href="{% url 'users:register' %}"><li>Регистрация</li></a>
+        {% endif %}
+        <
+    </body>
+</html>

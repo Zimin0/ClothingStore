@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 
 from django.contrib.auth.models import User
 from .models import Promocode, Product
 from django.contrib.auth.decorators import login_required
 from cart.forms import CartAddProductForm 
 from django.contrib import messages
+from orders.models import Order
 
 import logging
 logger = logging.getLogger(__name__)
@@ -69,4 +70,10 @@ def brand_creation(request):
 
 def contacts(request):
     """ Страница контактов. """
+
     return render(request, "pages/contacts.html") 
+
+def my_orders(request):
+    user_orders = Order.objects.filter(phone=request.user.profile.phone)
+    return render(request, 'pages/my_orders.html', context={'user_orders':user_orders})
+

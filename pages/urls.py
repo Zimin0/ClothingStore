@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import promocode, profile, main, ex_product, limited, brand_creation, contacts
+from .views import promocode, profile, main, ex_product, limited, brand_creation, contacts, my_orders
 
 app_name = 'pages'
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('limited/', limited, name='limited'),
     path('brand_creation/', brand_creation, name='brand_creation'),
     path('contacts/', contacts, name='contacts'),
+    path('my_orders/', my_orders, name='my_orders'),
 ]
