@@ -1,9 +1,8 @@
 body {
-    padding-top: 60px; /* Добавление отступа от верхней границы страницы */
+    padding-top: 70px; /* Добавление отступа от верхней границы страницы */
 }
 
 nav {
-
     position: fixed;
     top: 0;
     width: 100%;
@@ -17,11 +16,28 @@ nav {
     align-items: center; /* Центрирование элементов по вертикали */
 }
 
+h1 {
+    display: flex; /* Добавление flexbox для центрирования элементов */
+    justify-content: center; /* Центрирование элементов по горизонтали */
+}
+
 nav a {
     margin: 0 10px;
     text-decoration: none;
     color: #333;
     font-size: 18px; /* Увеличение размера шрифта */
+}
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+p {
+    color: #666768;
+}
+
+a:hover {
+    color: #007BFF; /* Изменение цвета ссылок при наведении */
 }
 
 nav li {

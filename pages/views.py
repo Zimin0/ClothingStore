@@ -79,3 +79,16 @@ def my_orders(request):
     user_orders = Order.objects.filter(phone=request.user.profile.phone)
     return render(request, 'pages/my_orders.html', context={'user_orders':user_orders})
 
+def men(request):
+    """ Мужские товары """
+    context = {}
+    context['user'] = request.user
+    context['products'] = Product.objects.filter(male_female='M')[:4]
+    return render(request, 'pages/men.html', context)
+
+def women(request):
+    """ Женские товары """
+    context = {}
+    context['user'] = request.user
+    context['products'] = Product.objects.filter(male_female='W')[:4]
+    return render(request, 'pages/women.html', context)

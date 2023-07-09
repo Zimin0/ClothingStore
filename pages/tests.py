@@ -11,6 +11,11 @@ from django.core.management.base import BaseCommand
 import random
 
 
+# all_pr = Product.objects.filter(male_female='F')
+# for pr in all_pr:
+#     pr.male_female = 'W'
+#     pr.save()
+
 
 # def load_Categories():
 #     for n in range(1,10):
@@ -28,3 +33,6 @@ import random
 #                 price=random.uniform(1000.0, 150000.0),
 #                 description="Полное описание товара +"*20,
 #             )
+
+
+

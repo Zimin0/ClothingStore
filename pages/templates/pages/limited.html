@@ -1,5 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+    <head>
+        <head>
+            <link rel="stylesheet" type="text/css" href="{% static 'pages/style.css' %}">
+            <nav>
+                <a href="{% url 'pages:main' %}"><li>Главная</li></a>
+                <a href="{% url 'pages:men' %}"><li>Мужское</li></a>
+                <a href="{% url 'pages:women' %}"><li>Женское</li></a>
+                <a href="{% url 'pages:limited' %}"><li>Лимитированная коллекция</li></a>
+            </nav>
+        </head>
+    </head>
     <body> 
         <h1> Лимитированная коллекция  </h1>
         <hr>
