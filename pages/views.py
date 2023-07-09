@@ -42,6 +42,8 @@ def promocode(request):
 def profile(request):
     """Личный кабинет """
     context = {}
+    print(Order.objects.filter(phone=request.user.profile.phone))
+    context['orders'] = Order.objects.filter(phone=request.user.profile.phone)
     try:
         context['promocode'] = request.user.promocode
     except: 

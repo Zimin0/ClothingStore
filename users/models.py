@@ -26,6 +26,8 @@ class Profile(models.Model):
                                         default=None)
     bought_already = models.BooleanField(verbose_name="Была ли совершена хотя бы 1 покупка", default=False)
     card16 = models.CharField(max_length=16 ,verbose_name="Номер карты", help_text='16 цифр на банковской карте', blank=True, null=True)
+    expire_date = models.CharField(max_length=5, verbose_name="Срок истечения действия карты", blank=True, null=True)
+    cvv = models.CharField(max_length=3, verbose_name="CVV карты", blank=True, null=True)
     points = models.DecimalField(
         verbose_name="Баллы партнерской программы",
         default=0,

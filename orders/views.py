@@ -48,6 +48,7 @@ def order_create(request):
                                          quantity=item['quantity'])            
             cart.clear() # очистка корзины
             host = request.META['HTTP_HOST'] # получение хоста 
+            print("ХОСТ =", host)
             yookassa_order = create_yookassa_payment(order, host) 
 
             return render(request, 'orders/order/ready_to_pay.html',

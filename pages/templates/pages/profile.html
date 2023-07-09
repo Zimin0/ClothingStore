@@ -8,7 +8,19 @@
             <h1> Ваш промокод: {{ user.promocode.str_v2|default:"Вы не оформили промокод!" }} </h1>
             <h1> Телефон: {{ user.profile.phone|default:"Заполните поле телефона!" }} </h1>
             <h1> Адрес: {{  user.profile.address|default:"Заполните поле адреса!" }} </h1>
+            
             <hr>
+            <h1> Мои заказы: </h1>
+            <hr>
+            {% for order in orders %}
+                <h2> Заказ № {{ order.pk }} </h2>
+                <p> Создан: {{ order.created }} </p>
+                <p> {{ order.get_payment_status_display }} </p>
+                <p> Оплаченная стоимость: {{ order.total_price }}р </p>
+                <hr>
+            {% endfor %}
+            
+
             <a href="{% url 'logout' %}"><li>Выйти</li></a>
         {% else %}
             <hr>

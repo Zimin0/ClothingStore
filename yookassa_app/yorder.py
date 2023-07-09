@@ -17,7 +17,7 @@ def create_yookassa_payment(order_obj, host):
             },
             "confirmation": {
                 "type": "redirect",
-                "return_url": str(host) # Переделать, захардкодил.
+                "return_url": 'http://' + str(host)
             },
             "capture": True,
             "description": f"Заказ №{order_obj.pk}",

@@ -1,0 +1,29 @@
+body {
+    padding-top: 60px; /* Добавление отступа от верхней границы страницы */
+}
+
+nav {
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px; /* Увеличение высоты меню */
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    z-index: 100;
+    border: 3px solid #ccc; /* Увеличение толщины рамки */
+    display: flex; /* Добавление flexbox для центрирования элементов */
+    justify-content: center; /* Центрирование элементов по горизонтали */
+    align-items: center; /* Центрирование элементов по вертикали */
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px; /* Увеличение размера шрифта */
+}
+
+nav li {
+    display: inline;
+}

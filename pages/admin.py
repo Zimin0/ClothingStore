@@ -18,13 +18,14 @@ class PhotoAdmin(admin.StackedInline):
     #list_display = ('pk', 'photo', 'product')
     
 class ProductAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Product
+
     list_display = ('name', 'category', 'male_female', 'price', 'is_limited', 'archived', 'add_date')
     list_filter = [ 'category', 'is_limited', 'archived', 'male_female']
     ordering = ['add_date',]
     search_fields = ['pk', 'name', 'add_date']
     inlines = [PhotoAdmin]
-    class Meta:
-        model = Product
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)

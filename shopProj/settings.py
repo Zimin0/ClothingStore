@@ -22,11 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%k+7ic29ibe=$!3cqt++*sqkr3l*88e9vpdb@c(02jd_*gf3(t'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True  # 1
 
-ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com', '*', '87ec-91-238-229-3.ngrok-free.app']
+ALLOWED_HOSTS = ['mon-story.com', 'www.mon-story.com', '*', '8f5f-91-238-229-3.ngrok-free.app']
 
 LOGIN_REDIRECT_URL = 'pages:main'
 LOGOUT_REDIRECT_URL = 'pages:main'
@@ -34,13 +33,13 @@ MEDIA_ROOT = f'{BASE_DIR}/media'
 MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static/'
-# Application definition
+
 
 CART_SESSION_ID = 'cart'
 SESSION_COOKIE_AGE = 600 # 10 minutes
-# debug_tool/settings.py
 
-CSRF_TRUSTED_ORIGINS = ['https://87ec-91-238-229-3.ngrok-free.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://8f5f-91-238-229-3.ngrok-free.app']
 
 
 INSTALLED_APPS = [
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
     'orders',
     'warehouse',
     'debug_toolbar',
+    'discount'
 ]
 
 MIDDLEWARE = [

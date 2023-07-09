@@ -39,12 +39,12 @@ class Product(models.Model):
     short_description = models.CharField(max_length=300, verbose_name="Краткое описание", null=True, blank=False, help_text="Будет выводиться на главной странице. Максимум - 300 символов.")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="categ_products", verbose_name="Категория", help_text="Группа товара, по которой будет фильтроваться их список.")
     amount = models.IntegerField(verbose_name="Кол-во", default=0, help_text="Количество товара на складе") # editable = False
-    male_female = models.CharField(max_length=10, choices=SEX, default="U")
+    male_female = models.CharField(max_length=10, choices=SEX, default="U", verbose_name='М/Ж?')
     price = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="Цена", default=0.0, blank=False) 
     description = models.TextField(max_length=1000, verbose_name="Длинное описание товара. Будет выводиться на его личной странице.", null=True, blank=True)
-    is_limited = models.BooleanField(verbose_name="Товар лимитированой серии?", default=False)
-    archived = models.BooleanField(verbose_name="Архивирован ли товар?", default=False)
-    add_date = models.DateTimeField(auto_now_add=True)
+    is_limited = models.BooleanField(verbose_name="Лимитированый?", default=False)
+    archived = models.BooleanField(verbose_name="Архивирован?", default=False)
+    add_date = models.DateTimeField(auto_now_add=True, verbose_name="Добавлен")
 
 class Photo(models.Model):
     """ Фотография товара """
@@ -93,7 +93,7 @@ class Promocode(models.Model):
     
     def generate_code(self):
         """ Генерирует строку промокода. """
-        CODE_LEN = 4 # 1.5 millions
+        CODE_LEN = 4 # 1.5 millions variations
         code = ''
         signs = string.ascii_uppercase + '0123456789'
         for l in range(CODE_LEN):
